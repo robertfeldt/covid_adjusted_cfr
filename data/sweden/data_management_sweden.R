@@ -5,7 +5,7 @@ source("setup.R")
 
 # Apply to selected_swedish_cases_20200328_1036.csv for now so use its dates:
 day_start = as.Date("2020-01-29")
-day_data = as.Date("2020-02-08")
+day_data = as.Date("2020-01-29")
 day_max = as.Date("2020-03-28")
 day_quarantine = as.Date("2020-03-16") # Sweden not yet in quarantine. Take day of 500 people max restriction, for now:
 
