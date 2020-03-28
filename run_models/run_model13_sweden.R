@@ -90,33 +90,24 @@ bashfile_rdump("model13d",id="SE-B",data_list_model13,warmup=500,iter=500,adapt_
 
 data_list_model13$inference=1
 options(mc.cores = parallel::detectCores())
-S_model13ITB = sampling(M_model13,
+# On AMD Ryzen with 8 cores so we can run up to 8 chains. Use 4 for now.
+S_model13SEB = sampling(M_model13,
                      data = data_list_model13,
-                     iter = 1000,
+                     iter = 2000,
                      chains = 4,
                      init=0.5,
-                     control=list(max_treedepth=10,adapt_delta=0.8))
+                     control=list(max_treedepth=10,adapt_delta=0.95))
 D_S_model13SEB = data_list_model13
-# Copy on cluster
-# system("scp /home/julien/Dropbox/Unibe/covid-19/covid_adjusted_cfr/models/model13d.stan /home/julien/Dropbox/Unibe/covid-19/covid_adjusted_cfr/run_models/sb_model13dIT* /home/julien/Dropbox/Unibe/covid-19/covid_adjusted_cfr/run_models/data_S_model13dIT* UBELIX:projects/COVID_age/model/.")
-
-# Copy back posterior samples
-system("scp  UBELIX:projects/COVID_age/model/S_model13dIT-B_2020-03-18-14-37-50_*  /home/julien/Dropbox/Unibe/covid-19/covid_adjusted_cfr/posterior_samples/.")
-system("scp  UBELIX:projects/COVID_age/model/data_S_model13dIT-B_2020-03-18-14-37-50.R /home/julien/Dropbox/Unibe/covid-19/covid_adjusted_cfr/posterior_samples/.")
-
-# Load posterior samples 
-D_S_model13ITB = read_rdump("posterior_samples/data_S_model13dIT-B_2020-03-18-14-37-50.R")
-S_model13ITB = read_stan_csv(paste0("posterior_samples/",dir("posterior_samples",pattern = 'S_model13dIT-B_2020-03-18-14-37-50_[[:digit:]]+.csv')))
 
 # Checks
-check_hmc_diagnostics(S_model13ITB)
-print(S_model13ITB,pars=c("beta","epsilon","rho","pi","psi"),digits_summary=4)
-print(S_model13ITB,pars=c("cfr_A_symptomatic","cfr_B_symptomatic","cfr_C_symptomatic","cfr_D_symptomatic","cfr_C_all","cfr_D_all"),digits_summary=5)
+check_hmc_diagnostics(S_model13SEB)
+#print(S_model13SEB,pars=c("beta","epsilon","rho","pi","psi"),digits_summary=4)
+#print(S_model13ITB,pars=c("cfr_A_symptomatic","cfr_B_symptomatic","cfr_C_symptomatic","cfr_D_symptomatic","cfr_C_all","cfr_D_all"),digits_summary=5)
 
 # Save
 save(
-     S_model13ITB,D_S_model13ITB,
-     file="posterior_samples/model13IT_2020-03-18.Rdata")
+     S_model13SEB,D_S_model13SEB,
+     file="posterior_samples/model13SEB_2020-03-28.Rdata")
 
 
 
