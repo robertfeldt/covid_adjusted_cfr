@@ -61,7 +61,7 @@ startrow = first(findall(row -> dfseall.cases[row] >= 1, 1:nrow(dfseall)))
 
 # We start 3 days before the first case
 selecfromrow = max(1, startrow-3)
-dfseselected = dfseall[selecfromrow:end, names(df)]
+dfseselected = dfseall[selecfromrow:end, :]
 
 # Now save these selected ones:
-save_to_csv("selected_swedish_cases", dfseselected[:, names(df)])
+save_to_csv("selected_swedish_cases", dfseselected[:, :])
