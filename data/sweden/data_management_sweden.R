@@ -29,7 +29,7 @@ pop_t = 10.082924e6
 #pop_t = 10.183175e6
 
 ## Case incidence in Sweden up to 2020-03-28 from ECDC
-sweden_data_28march = read.csv("data/sewden/selected_swedish_cases_20200328_1036.csv") %>%
+sweden_data_28march = read.csv("data/sweden/selected_swedish_cases_20200328_1036.csv") %>%
   tbl_df() %>%
   mutate(date=ymd(paste("2020",month,day,sep="-"))) %>%
   filter(date>=day_data,date<=day_max)
